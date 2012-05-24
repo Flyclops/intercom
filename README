@@ -1,0 +1,15 @@
+this is a dead simple Twilio "app". 
+
+calling (215) 987-5753 hits a webhook at phone.indyhall.org/apt.php, which triggers a TwiML flow.
+
+it's dumb, simple, and i'm a terrible programmer. but it works.
+
+lets make it better.
+
+TODO:
+
+* database driven
+* random code generator
+* prevent duplicate codes
+* use recorded greetings instead of text-to-speech
+* hilarious easter eggs
