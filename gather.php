@@ -1,26 +1,39 @@
 <?php
 
 $members=array(
-   "1234"=>"Alex Hillman"
-  ,"2345"=>"Adam Teterus"
-  ,"3456"=>"Geoff DiMasi"
-  ,"9999"=>"Johnny Bilotta"
-  ,"9876"=>"Parker Whitney"
+   "1234"=>array(
+      "name"=>"Alex Hillman")
+  ,"2345"=>array(
+      "name"=>"Adam Teterus")
+  ,"3456"=>array(
+      "name"=>"Geoff DiMasi")
+  ,"9999"=>array(
+      "name"=>"Johnny Bilotta")
+  ,"9876"=>array(
+      "name"=>"Parker Whitney"
+     ,"tone"=>"http://phone.indyhall.org/voice/Parker1.mp3")
 );
 
 echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-if(array_key_exists($_REQUEST['Digits'], $members)){
+
+$code = $_REQUEST['Digits'];
+if(array_key_exists($code, $members)){
+  $member = $members[$code];
+
+  if (array_key_exists('tone')) {
+    $tone = $member['tone'];
+  } else {
+    $tone = "http://idisk.s3.amazonaws.com/tmp/9.wav";
+  }
+  
   ?>
+  
   <Response>
-    <?  if($_REQUEST['Digits'] == '9876'){
-          ?>
-          <Play>http://phone.indyhall.org/voice/Parker1.mp3</Play>
-          <?
-        }
-    ?>
-    <Play>http://idisk.s3.amazonaws.com/tmp/9.wav</Play>
+    <Play><?php echo $tone; ?></Play>
   </Response>
+  
   <?php
+  
   die;
 }
 elseif($_REQUEST['Digits'] == '0'){
