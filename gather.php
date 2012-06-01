@@ -107,7 +107,7 @@ function respond() {
   }
 }
 
-#respond();
-#die;
+respond();
+die;
 
 ?>
