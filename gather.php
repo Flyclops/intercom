@@ -14,29 +14,39 @@ $members=array(
      ,"tone"=>"http://phone.indyhall.org/voice/Parker1.mp3")
 );
 
-echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-
-$code = $_REQUEST['Digits'];
-if(array_key_exists($code, $members)){
-  $member = $members[$code];
-
-  if (array_key_exists('tone')) {
-    $tone = $member['tone'];
-  } else {
-    $tone = "http://idisk.s3.amazonaws.com/tmp/9.wav";
+function get_member_by_code($code) {
+  global $members;
+  if (array_key_exists($code, $members)) {
+    $member = $members[$code];
+    return $member;
   }
   
+  return null;
+}
+
+function get_member_tone($member) {
+  if (array_key_exists('tone', $member)) {
+    return $member['tone'];
+  } else {
+    return "http://idisk.s3.amazonaws.com/tmp/9.wav";
+  }
+}
+
+echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+
+$digits = $_REQUEST['Digits'];
+$member = get_member_by_code($digits);
+
+if ($member != null) {
+  $tone = get_member_tone($member);
   ?>
-  
   <Response>
     <Play><?php echo $tone; ?></Play>
   </Response>
-  
   <?php
-  
   die;
 }
-elseif($_REQUEST['Digits'] == '0'){
+elseif ($digits == '0') {
   ?>
   <Response>
     <Play>http://phone.indyhall.org/voice/FrontDesk1.mp3</Play>
@@ -45,7 +55,7 @@ elseif($_REQUEST['Digits'] == '0'){
   <?php
   die;
 }
-else{
+else {
 ?>
   <Response>
     <Gather action="http://phone.indyhall.org/gather.php" method="POST">
