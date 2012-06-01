@@ -13,3 +13,8 @@ TODO:
 * prevent duplicate codes
 * use recorded greetings instead of text-to-speech
 * hilarious easter eggs
+
+
+Database
+--------
+This uses CouchDB to store member info.

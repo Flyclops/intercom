@@ -1,22 +1,12 @@
 <?php
 
-// NOTE: This is a temporary member 
-//       datastore, until this is 
-//       hooked up to a database.
-$members=array(
-   "1234"=>array(
-      "name"=>"Alex Hillman")
-  ,"2345"=>array(
-      "name"=>"Adam Teterus")
-  ,"3456"=>array(
-      "name"=>"Geoff DiMasi")
-  ,"9999"=>array(
-      "name"=>"Johnny Bilotta")
-  ,"9876"=>array(
-      "name"=>"Parker Whitney"
-     ,"tone"=>"http://phone.indyhall.org/voice/Parker1.mp3")
-);
+require_once "couch/couch.php";
+require_once "couch/couchClient.php";
+require_once "couch/couchDocument.php";
 
+require "settings.php";
+
+$member_db = new couchClient($MEMBER_DB_HOST, $MEMBER_DB_NAME);
 
 /*
  * get_member_by_code
@@ -25,15 +15,16 @@ $members=array(
  * with the given code could be found.
  */
 function get_member_by_code($code) {
-  // TODO: This should check the DB 
-  //       instead of the above array.
-  global $members;
-  if (array_key_exists($code, $members)) {
-    $member = $members[$code];
-    return $member;
+  global $member_db;
+  try {
+	  return $member_db->getDoc($code);
+  } catch ( Exception $e ) {
+	  if ( $e->getCode() == 404 ) {
+	    return null;
+    } else {
+	    die("Unable to get ".$code." : ".$e->getMessage());
+    }
   }
-  
-  return null;
 }
 
 
@@ -48,19 +39,15 @@ $SUCCESSFUL_CODE_CHANGE = 0;
 $DUPLICATE_CODE_ERROR = 1;
 $NON_EXISTENT_MEMBER_ERROR = 2;
 
-function change_member_code($old_code, $new_code) {
-  if (get_member_by_code($old_code) == null) {
-    return $NON_EXISTENT_MEMBER_ERROR;
-  } elseif (get_member_by_code($new_code) != null) {
+function change_member_code($member, $new_code) {
+  if (get_member_by_code($new_code) != null) {
     return $DUPLICATE_CODE_ERROR;
   } 
   
-  // TODO: This should just reassign
-  //       the 'code' field on the 
-  //       member's DB record.
-  global $members;
-  $members[$new_code] = $members[old_code];
-  unset($members[$old_code]);
+  $member->set( array(
+    "_id" => $new_code,
+    "code" => $new_code
+  ) );
   
   return $SUCCESSFUL_CODE_CHANGE;
 }
@@ -72,8 +59,8 @@ function change_member_code($old_code, $new_code) {
  * Get the tone from the given member array, or fall back to some default.
  */
 function get_member_tone($member) {
-  if (array_key_exists('tone', $member)) {
-    return $member['tone'];
+  if (isset($member->tone)) {
+    return $member->tone;
   }
   
   return "http://idisk.s3.amazonaws.com/tmp/9.wav";
@@ -120,7 +107,7 @@ function respond() {
   }
 }
 
-respond();
-die;
+#respond();
+#die;
 
 ?>
