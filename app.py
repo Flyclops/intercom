@@ -24,7 +24,9 @@ app = Flask(__name__)
 #   An arbitrary string
 #
 # * MEMBER_DB_HOST (optional)
-#   In the form 'http://www.mycouchserver.com:1234/'.
+#   In the form 'http://[user:pass@]www.mycouchserver.com:1234/'.  Note that
+#   you must use user:pass if your database is not in admin-party (it shouldn't
+#   be).
 #
 # * MEMBER_DB_NAME
 #   The name of the specific member database
