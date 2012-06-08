@@ -57,7 +57,11 @@ class Responder (object):
             self.redirect_to_authentication("voice/Invalid3.mp3")
 
     def redirect_to_authentication(self, message):
-        with self.r.gather(action=self.host + "authenticate_member") as auth:
+        params = dict(
+            action=self.host + "authenticate_member",
+            method='GET'
+        )
+        with self.r.gather(**params) as auth:
             auth.play(self.host + message)
             auth.play(self.host + "voice/Guest4.mp3")
 
