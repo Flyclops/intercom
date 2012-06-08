@@ -23,7 +23,7 @@ app = Flask(__name__)
 # * SECRET_KEY
 #   An arbitrary string
 #
-# * MEMBER_DB_HOST (optional)
+# * MEMBER_DB_URL
 #   In the form 'http://[user:pass@]www.mymongoserver.com:1234/db_name'.
 
 try:
