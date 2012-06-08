@@ -35,9 +35,9 @@ try:
     import settings
     app.config.from_object(settings)
 except ImportError:
-    app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
+    app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
     app.config['MEMBER_DB_HOST'] = os.environ.get('MEMBER_DB_HOST')
-    app.config['MEMBER_DB_NAME'] = os.environ['MEMBER_DB_NAME']
+    app.config['MEMBER_DB_NAME'] = os.environ.get('MEMBER_DB_NAME')
 
 
 ###
