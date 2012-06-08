@@ -1,0 +1,77 @@
+Steps for WebFaction: two things you have to do -- install CouchDB and install
+the Python dependencies.  The second step is easy.
+
+1) Installing CouchDB
+   ------------------
+
+# Why yes, this does seem like a huge honking mess.  This guide is from:
+# http://community.webfaction.com/questions/557/installing-couchdb
+
+export PATH="$HOME/bin:$PATH"
+mkdir -p $HOME/src
+
+# Erlang R15B - source: http://www.erlang.org/download/otp_src_R15B.tar.gz
+cd $HOME/src
+wget 'http://mirror.ryansanden.com/couchdb-1.1.1/otp_src_R15B.tar.gz'
+tar -xzf otp_src_R15B.tar.gz
+cd otp_src_R15B
+./configure --prefix=$HOME
+make           # 3 min
+make install
+
+# icu 4.8.1.1 - source: http://download.icu-project.org/files/icu4c/4.8.1.1/icu4c-4_8_1_1-src.tgz
+cd $HOME/src
+wget 'http://mirror.ryansanden.com/couchdb-1.1.1/icu4c-4_8_1_1-src.tgz'
+tar -xzf icu4c-4_8_1_1-src.tgz
+cd icu/source
+./configure --prefix=$HOME
+make           # 1.5 min
+make install
+
+# spidermonkey 1.8.5 - source: http://ftp.mozilla.org/pub/mozilla.org/js/js185-1.0.0.tar.gz
+cd $HOME/src
+wget 'http://mirror.ryansanden.com/couchdb-1.1.1/js185-1.0.0.tar.gz'
+tar -xzf js185-1.0.0.tar.gz
+cd js-1.8.5/js/src
+./configure --prefix=$HOME
+make           # 1 min
+make install
+
+# curl 7.24.0 - source: http://curl.haxx.se/download/curl-7.24.0.tar.gz
+cd $HOME/src
+wget 'http://mirror.ryansanden.com/couchdb-1.1.1/curl-7.24.0.tar.gz'
+tar -xzf curl-7.24.0.tar.gz
+cd curl-7.24.0
+./configure --prefix=$HOME
+make           # 0.3 min
+make install
+
+# make sure we're using the binaries in $HOME/bin and not a cached path
+hash -r
+
+# couchdb 1.1.1 - source: http://apache.mirrors.tds.net//couchdb/1.1.1/apache-couchdb-1.1.1.tar.gz
+cd $HOME/src
+wget 'http://mirror.ryansanden.com/couchdb-1.1.1/apache-couchdb-1.1.1.tar.gz'
+tar -xzf apache-couchdb-1.1.1.tar.gz
+cd apache-couchdb-1.1.1
+export LD_LIBRARY_PATH=$HOME/lib:$LD_LIBRARY_PATH
+export CURL_CONFIG=$HOME/bin/curl-config
+./configure --prefix=$HOME --with-js-lib=$HOME/lib --with-js-include=$HOME/include/js --with-erlang=$HOME/lib/erlang/usr/include
+make           # 0.3 min
+make install
+
+
+
+2) Installing Python dependencies
+   ------------------------------
+
+# Install pip and virtualenv
+easy_install-2.7 pip
+pip-2.7 install virtualenv
+
+# Create a virtual environment with python2 as the default.
+virtualenv env -p python2.7
+source env/bin/activate
+
+# Install the project dependencies
+pip install -r requirements.txt
