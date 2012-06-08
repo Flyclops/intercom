@@ -3,4 +3,4 @@ gevent
 gunicorn
 
 twilio
-couchdb
+pymongo

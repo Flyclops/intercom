@@ -24,20 +24,14 @@ app = Flask(__name__)
 #   An arbitrary string
 #
 # * MEMBER_DB_HOST (optional)
-#   In the form 'http://[user:pass@]www.mycouchserver.com:1234/'.  Note that
-#   you must use user:pass if your database is not in admin-party (it shouldn't
-#   be).
-#
-# * MEMBER_DB_NAME
-#   The name of the specific member database
+#   In the form 'http://[user:pass@]www.mymongoserver.com:1234/db_name'.
 
 try:
     import settings
     app.config.from_object(settings)
 except ImportError:
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
-    app.config['MEMBER_DB_HOST'] = os.environ.get('MEMBER_DB_HOST')
-    app.config['MEMBER_DB_NAME'] = os.environ.get('MEMBER_DB_NAME')
+    app.config['MEMBER_DB_URL'] = os.environ.get('MEMBER_DB_URL') or os.environ.get('MONGOHQ_URl')
 
 
 ###

@@ -1,25 +1,33 @@
-import couchdb
 import twilio.twiml
 
 class MemberStore (object):
     def __init__(self, config):
-        db_host = config.get('MEMBER_DB_HOST')
-        db_name = config.get('MEMBER_DB_NAME')
-        db_args = dict(url=db_host) if db_host else {}
-        self.db = couchdb.Server(**db_args)[db_name]
+        import pymongo
+        from urlparse import urlparse
+
+        db_url = config.get('MEMBER_DB_URL')
+        parts = urlparse(db_url)
+
+        db_host = parts.hostname
+        db_port = parts.port
+        db_name = parts.path[1:]
+        db_user = parts.username
+        db_pass = parts.password
+
+        self.db = pymongo.Connection(db_host, db_port)[db_name]
+        self.db.authenticate(db_user, db_pass)
+        self.collection = self.db['members']
 
     def get_member_by_code(self, code):
         """
         Get an array representing the member from storage.  Return null if no
         member with the given code could be found.
         """
-        try:
-            member_data = self.db[code]
-            return Member(self, member_data)
-        except couchdb.ResourceNotFound:
+        data = self.collection.find_one({'code': code})
+        if data:
+            return Member(self, data)
+        else:
             return None
-        except Exception, e:
-            raise Exception("Unable to get {0} : {1}".format(code, e))
 
 
 class Member (object):
