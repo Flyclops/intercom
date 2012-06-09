@@ -1,6 +1,5 @@
-flask
+django
 gevent
 gunicorn
 
 twilio
-pymongo
