@@ -10,7 +10,7 @@ ADMINS = (
 MANAGERS = ADMINS
 
 import dj_database_url
-PROJ_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
+PROJ_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, os.pardir))
 DATABASES = {'default': dj_database_url.config(default='sqlite:///' + os.path.join(PROJ_PATH, 'intercom.db'))}
 
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
