@@ -57,9 +57,9 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-ROOT_URLCONF = 'src.urls'
+ROOT_URLCONF = 'project.urls'
 
-WSGI_APPLICATION = 'src.wsgi.application'
+WSGI_APPLICATION = 'project.wsgi.application'
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -71,7 +71,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'intercom',
-    'src',
+    'project',
 )
 
 # See http://docs.djangoproject.com/en/dev/topics/logging for
