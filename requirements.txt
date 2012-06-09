@@ -3,4 +3,5 @@ gevent
 gunicorn
 
 twilio
+psycopg2
 dj-database-url
