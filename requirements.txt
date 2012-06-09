@@ -3,3 +3,4 @@ gevent
 gunicorn
 
 twilio
+dj-database-url
