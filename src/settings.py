@@ -1,4 +1,6 @@
-DEBUG = True
+import os
+
+DEBUG = (os.environ.get('DEBUG', 'True') == 'True')
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
