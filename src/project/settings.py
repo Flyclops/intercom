@@ -1,6 +1,6 @@
 import os
 
-DEBUG = (os.environ.get('DEBUG', 'True') == 'True')
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -22,8 +22,8 @@ LANGUAGE_CODE = 'en-us'
 USE_I18N = True
 USE_TZ = True
 
-MEDIA_ROOT = ''
-MEDIA_URL = ''
+#MEDIA_ROOT = ''
+#MEDIA_URL = ''
 
 STATIC_ROOT = ''
 STATIC_URL = '/static/'
