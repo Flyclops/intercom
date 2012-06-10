@@ -11,7 +11,8 @@ MANAGERS = ADMINS
 
 import dj_database_url
 PROJ_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, os.pardir))
-DATABASES = {'default': dj_database_url.config(default='sqlite:///' + os.path.join(PROJ_PATH, 'intercom.db'))}
+DEFAULT_DATABASE_URL = 'sqlite:///' + os.path.join(PROJ_PATH, 'intercom.db')
+DATABASES = {'default': dj_database_url.config(default=DEFAULT_DATABASE_URL)}
 
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 TIME_ZONE = 'US/Eastern'
@@ -58,6 +59,8 @@ INSTALLED_APPS = (
     'intercom',
     'project',
     'indystyle',
+
+    'south',
 
     'django.contrib.auth',
     'django.contrib.contenttypes',
