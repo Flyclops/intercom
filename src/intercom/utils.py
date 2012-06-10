@@ -23,8 +23,15 @@ class Intercom (object):
         self.r.play(self.host + "voice/Invalid3.mp3")
 
     def authenticate(self):
+        # Copy the verbs off of the response so far, and put them inside of the
+        # gather.  We don't want the user to have to wait until the gather
+        # starts to be able to give their input; it should all be in the gather.
+
+        verbs = self.r.verbs[:]
+        self.r.verbs = []
         params = dict(method='GET', action=self.host + "authenticate_member")
         with self.r.gather(**params) as auth:
+            auth.verbs = verbs[:]
             auth.play(self.host + "voice/Guest4.mp3")
 
     def __str__(self):
