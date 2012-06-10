@@ -17,8 +17,10 @@ $ pip install -r requirements.txt
 2) Setting up the database
    -----------------------
 
-For whatever (relational) database you like, specify the path to the DB in the
-src/project/settings.py file.  By default, an SQLite database is created.
+For whatever (relational) database you like, specify the path to the DB in
+either an environment variable called DATABASE_URL, or in a variable called
+DEFAULT_DATABASE_URL in the src/project/settings.py file.  By default, an
+SQLite database is created.
 
 After specifying the DB URL, to install the schema, run:
 

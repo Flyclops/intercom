@@ -1,17 +1,20 @@
-this is a dead simple Twilio "app".
+This is a simple app to manage access codes for an intercom system.
 
 calling (215) 987-5753 hits a webhook at phone.indyhall.org/first_contact, which triggers a TwiML flow.
 
 lets make it better.
 
 TODO:
-
-* random code generator
-* prevent duplicate codes
-* use recorded greetings instead of text-to-speech
 * hilarious easter eggs
 
 
-Database
---------
-This uses CouchDB to store member info.
+Usage
+-----
+
+The application is made to work with the Twilio service.  Point a Twilio number
+at the `http://<app_host>/first_contact` URL.
+
+The app will allow entry to Members listed in the database.  To add Members,
+browse to `http://<app_host>/` and log in as an administrator.  New member codes
+are generated automatically, but can be overridden.  Duplicate codes will not be
+allowed.
