@@ -21,7 +21,7 @@ def authenticate_member(request):
 
     else:
         try:
-            member = models.Member.objects.get(code=digits)
+            member = models.Member.objects.get(code=digits, active=True)
             intercom.notify_of_valid_code(member, digits)
             member.access()
         except models.Member.DoesNotExist:

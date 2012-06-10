@@ -24,7 +24,7 @@ def unused_member_code():
     while not found_unused_code:
         code = random.randint(0, 999999)
         try:
-            Member.objects.get(code=code)
+            Member.objects.values('code').get(code=code)
         except Member.DoesNotExist:
             found_unused_code = True
 
@@ -55,6 +55,9 @@ class Member (models.Model):
     #
     #       For now we will leave it unhashed.  We can always change our mind
     #       with a migration later.  Of course, it would be a one-way migration.
+
+    active = models.BooleanField(default=True)
+    """Is the user active.  If they're deactivated, they won't be let in."""
 
     tone = models.CharField(max_length=1024, null=True, blank=True, help_text="Use this to set a custom noise when the user enters a correct pass code.  Just leave it blank to use the default.")
     """The URL of the tone that will play upon member authentication"""
