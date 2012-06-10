@@ -25,3 +25,4 @@ SQLite database is created.
 After specifying the DB URL, to install the schema, run:
 
 $ src/manage.py syncdb
+$ src/manage.py migrate
