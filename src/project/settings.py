@@ -55,6 +55,10 @@ ROOT_URLCONF = 'project.urls'
 WSGI_APPLICATION = 'project.wsgi.application'
 
 INSTALLED_APPS = (
+    'intercom',
+    'project',
+    'indystyle',
+
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -63,8 +67,6 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
-    'intercom',
-    'project',
 )
 
 # See http://docs.djangoproject.com/en/dev/topics/logging for
