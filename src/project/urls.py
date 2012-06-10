@@ -5,7 +5,7 @@ import intercom.urls
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^', include(admin.site.urls)),
     url(r'^', include(intercom.urls)),
 )
 
