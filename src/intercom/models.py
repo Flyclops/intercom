@@ -6,7 +6,7 @@ from django.db import models
 
 class MembershipType (models.Model):
     name = models.CharField(max_length=32)
-    slug = models.CharField(max_length=32, blank=True, primary_key=True)
+    slug = models.CharField(max_length=32, blank=True, primary_key=True, help_text="You can just leave this blank; it'll get filled in with something sensible based on the name of the membership type.")
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -35,13 +35,13 @@ class Member (models.Model):
     created_datetime = models.DateTimeField(auto_now_add=True)
     updated_datetime = models.DateTimeField(auto_now=True)
 
-    name = models.CharField(max_length=256)
+    name = models.CharField(max_length=256, help_text="The member's full name.")
     """The member's full name"""
 
     membership = models.ForeignKey(MembershipType)
     """The membership type for the member"""
 
-    code = models.CharField(max_length=32, unique=True, default=unused_member_code)
+    code = models.CharField(max_length=32, unique=True, default=unused_member_code, help_text="This should be a numeric code.  The default is an arbitrarily-generated unused code.")
     """The entry code for the user"""
     # NOTE: consider storing the code encrypted, like User.password.  There are
     #       a few ways this could be done.  We could store a common salt to
@@ -56,7 +56,7 @@ class Member (models.Model):
     #       For now we will leave it unhashed.  We can always change our mind
     #       with a migration later.  Of course, it would be a one-way migration.
 
-    tone = models.CharField(max_length=1024, null=True, blank=True)
+    tone = models.CharField(max_length=1024, null=True, blank=True, help_text="Use this to set a custom noise when the user enters a correct pass code.  Just leave it blank to use the default.")
     """The URL of the tone that will play upon member authentication"""
 
     last_access = models.DateTimeField(blank=True, default=datetime.now)
