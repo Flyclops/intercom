@@ -1,23 +1,25 @@
-Steps for WebFaction: two things you have to do -- install CouchDB and install
-the Python dependencies.  The second step is easy.
-
-1) Installing MongoDB
-   ------------------
-
-You should be able to enable it from the control panel.  Much easier than the
-CouchDB installation :)
-
-
-2) Installing Python dependencies
+1) Installing Python dependencies
    ------------------------------
 
-# Install pip and virtualenv
-easy_install-2.7 pip
-pip-2.7 install virtualenv
+$ # Install pip and virtualenv
+$ easy_install-2.7 pip
+$ pip-2.7 install virtualenv
+$
+$ # Create a virtual environment with python2 as the default.
+$ virtualenv env -p python2.7
+$ source env/bin/activate
+$
+$ # Install the project dependencies
+$ pip install -r requirements.txt
 
-# Create a virtual environment with python2 as the default.
-virtualenv env -p python2.7
-source env/bin/activate
 
-# Install the project dependencies
-pip install -r requirements.txt
+
+2) Setting up the database
+   -----------------------
+
+For whatever (relational) database you like, specify the path to the DB in the
+src/project/settings.py file.  By default, an SQLite database is created.
+
+After specifying the DB URL, to install the schema, run:
+
+$ src/manage.py syncdb
