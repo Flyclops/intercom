@@ -1,7 +1,15 @@
+# Server
 django
 gevent
 gunicorn
 
+# Phone
 twilio
+
+# Database
 psycopg2
 dj-database-url
+south
+
+# Time
+pytz

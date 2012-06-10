@@ -1,6 +1,6 @@
 import random
 import re
-from datetime import datetime
+from django.utils import timezone
 from django.db import models
 
 
@@ -59,8 +59,13 @@ class Member (models.Model):
     tone = models.CharField(max_length=1024, null=True, blank=True, help_text="Use this to set a custom noise when the user enters a correct pass code.  Just leave it blank to use the default.")
     """The URL of the tone that will play upon member authentication"""
 
-    last_access = models.DateTimeField(blank=True, default=datetime.now)
+    last_access = models.DateTimeField(blank=True, default=timezone.now)
     """The time that the member last authenticated"""
+
+    def access(self, commit=True):
+        self.last_access = timezone.now()
+        if commit:
+            self.save()
 
     def __unicode__(self):
         return (self.membership.name + " member " + self.name)
