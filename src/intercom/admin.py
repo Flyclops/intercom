@@ -8,5 +8,13 @@ class TimeRuleInline (admin.TabularInline):
 class MembershipTypeAdmin (admin.ModelAdmin):
     inlines = [TimeRuleInline]
 
-admin.site.register(models.Member)
+class MemberAdmin (admin.ModelAdmin):
+    readonly_fields = ['last_access']
+    list_display = ['name', 'membership', 'last_access']
+    list_display_links = ['name']
+    list_editable = []
+    list_filter = ['membership']
+    search_fields = ['name']
+
+admin.site.register(models.Member, MemberAdmin)
 admin.site.register(models.MembershipType, MembershipTypeAdmin)
