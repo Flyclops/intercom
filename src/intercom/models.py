@@ -39,6 +39,18 @@ class TimeRule (models.Model):
     closing_time = models.TimeField(null=True, blank=True)
     membership = models.ForeignKey(MembershipType, related_name='rules')
 
+    def __unicode__(self):
+        days = dict(self.DAY_CHOICES)
+        val = ('Open ' if self.is_open else 'Closed ') + days[self.day]
+        if self.is_open:
+            if self.opening_time:
+                val += ' from ' + self.opening_time.strftime('%I:%M %p')
+            if self.closing_time:
+                val += ' until ' + self.closing_time.strftime('%I:%M %p')
+            else:
+                val += ' on'
+        return val
+
     def day_matches(self, dt):
         w = dt.weekday()
         return (self.day == '*' or
