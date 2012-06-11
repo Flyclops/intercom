@@ -142,12 +142,13 @@ class Member (models.Model):
 
     def is_allowed_access(self, at_datetime):
         """
-        Return True if some access rule explicitly allows access on the given
-        date and time, and none explicitly forbids it.
+        Return the allowance of the first non-None access rule for the given
+        date and time.
         """
-        allowances = [rule.applies(at_datetime) for rule in self.membership.rules.all()]
-        allowances = filter(lambda v: v is not None, allowances)
-        return allowances and all(allowances)
+        for rule in self.membership.rules.all():
+            allowance = rule.applies(at_datetime)
+            if allowance is not None:
+                return allowance
 
     def __unicode__(self):
         return (self.membership.name + " member " + self.name)
