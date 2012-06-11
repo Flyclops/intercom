@@ -1,7 +1,7 @@
 from django.contrib import admin
 from . import models
 
-class TimeRuleInline (admin.StackedInline):
+class TimeRuleInline (admin.TabularInline):
     model = models.TimeRule
     extra = 0
 
