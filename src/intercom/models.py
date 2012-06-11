@@ -47,8 +47,6 @@ class TimeRule (models.Model):
                 val += ' from ' + self.opening_time.strftime('%I:%M %p')
             if self.closing_time:
                 val += ' until ' + self.closing_time.strftime('%I:%M %p')
-            else:
-                val += ' on'
         return val
 
     def day_matches(self, dt):
@@ -61,22 +59,19 @@ class TimeRule (models.Model):
     def applies(self, to_datetime):
         """
         Retrns true if this rule says that indyhall is open at the given
-        datetime
+        datetime, false if it says that it's closed.  A None-value signifies
+        nothing.
         """
-        if not self.is_open:
-            return False
-
         if self.day_matches(to_datetime):
             tz = timezone.get_current_timezone()
             current_time = to_datetime.astimezone(tz).time()
 
             if self.opening_time and current_time < self.opening_time:
-                return False
+                return
             if self.closing_time and current_time > self.closing_time:
-                return False
-            return True
+                return
 
-        return False
+            return self.is_open
 
 
 def unused_member_code():
@@ -132,9 +127,13 @@ class Member (models.Model):
             self.save()
 
     def is_allowed_access(self, at_datetime):
-        for rule in self.membership.rules.all():
-            if rule.applies(at_datetime):
-                return True
+        """
+        Return True if some access rule explicitly allows access on the given
+        date and time, and none explicitly forbids it.
+        """
+        allowances = [rule.applies(at_datetime) for rule in self.membership.rules.all()]
+        allowances = filter(lambda v: v is not None, allowances)
+        return allowances and all(allowances)
 
     def __unicode__(self):
         return (self.membership.name + " member " + self.name)
