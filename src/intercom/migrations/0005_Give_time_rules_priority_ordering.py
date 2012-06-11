@@ -11,7 +11,7 @@ class Migration(DataMigration):
         MembershipType = orm['intercom.MembershipType']
 
         for mt in MembershipType.objects.all():
-            priority = 0
+            priority = 1
             for rule in mt.rules.all():
                 rule.priority = priority
                 rule.save()
