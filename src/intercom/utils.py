@@ -13,7 +13,7 @@ class Intercom (object):
         self.r.play(self.host + "voice/Welcome4.mp3")
 
     def send_to_front_desk(self):
-        self.r.play(self.host + "voice/FrontDesk1.mp3")
+        # self.r.play(self.host + "voice/FrontDesk1.mp3")
         self.r.dial("267-702-4865")
 
     def notify_of_valid_code(self, member, digits):
@@ -32,7 +32,7 @@ class Intercom (object):
         params = dict(method='GET', action=self.host + "authenticate_member")
         with self.r.gather(**params) as auth:
             auth.verbs = verbs[:]
-            auth.play(self.host + "voice/Guest4.mp3")
+            auth.play(self.host + "voice/Guest6.mp3")
 
     def __str__(self):
         return self.r.toxml()
