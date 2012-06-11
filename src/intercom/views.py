@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django.utils import timezone
 from . import models
 from . import utils
 
@@ -22,8 +23,14 @@ def authenticate_member(request):
     else:
         try:
             member = models.Member.objects.get(code=digits, active=True)
-            intercom.notify_of_valid_code(member, digits)
-            member.access()
+
+            now = timezone.now()
+            if member.is_allowed_access(now):
+                intercom.notify_of_valid_code(member, digits)
+                member.access()
+            else:
+                intercom.send_to_front_desk()
+
         except models.Member.DoesNotExist:
             intercom.notify_of_invalid_code(digits)
             intercom.authenticate()

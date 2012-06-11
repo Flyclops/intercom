@@ -7,6 +7,7 @@ from django.db import models
 class MembershipType (models.Model):
     name = models.CharField(max_length=32)
     slug = models.CharField(max_length=32, blank=True, primary_key=True, help_text="You can just leave this blank; it'll get filled in with something sensible based on the name of the membership type.")
+    # rules (TimeRule, backref)
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -16,6 +17,54 @@ class MembershipType (models.Model):
 
     def __unicode__(self):
         return (self.name + " membership")
+
+
+class TimeRule (models.Model):
+    DAY_CHOICES = [
+        ('0', 'Monday'),
+        ('1', 'Tuesday'),
+        ('2', 'Wednesday'),
+        ('3', 'Thursday'),
+        ('4', 'Friday'),
+        ('5', 'Saturday'),
+        ('6', 'Sunday'),
+        ('mf', 'Monday-Friday'),
+        ('ss', 'Saturday/Sunday'),
+        ('*', 'Every Day'),
+    ]
+
+    day = models.CharField(max_length=10, choices=DAY_CHOICES)
+    is_open = models.BooleanField(default=True)
+    opening_time = models.TimeField(null=True, blank=True)
+    closing_time = models.TimeField(null=True, blank=True)
+    membership = models.ForeignKey(MembershipType, related_name='rules')
+
+    def day_matches(self, dt):
+        w = dt.weekday()
+        return (self.day == '*' or
+                str(w) == self.day or
+                (w < 5 and self.day == 'mf') or
+                (w >= 5 and self.day == 'ss'))
+
+    def applies(self, to_datetime):
+        """
+        Retrns true if this rule says that indyhall is open at the given
+        datetime
+        """
+        if not self.is_open:
+            return False
+
+        if self.day_matches(to_datetime):
+            tz = timezone.get_current_timezone()
+            current_time = to_datetime.astimezone(tz).time()
+
+            if self.opening_time and current_time < self.opening_time:
+                return False
+            if self.closing_time and current_time > self.closing_time:
+                return False
+            return True
+
+        return False
 
 
 def unused_member_code():
@@ -69,6 +118,11 @@ class Member (models.Model):
         self.last_access = timezone.now()
         if commit:
             self.save()
+
+    def is_allowed_access(self, at_datetime):
+        for rule in self.membership.rules.all():
+            if rule.applies(at_datetime):
+                return True
 
     def __unicode__(self):
         return (self.membership.name + " member " + self.name)
