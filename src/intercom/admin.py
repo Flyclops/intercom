@@ -4,6 +4,7 @@ from . import models
 class TimeRuleInline (admin.TabularInline):
     model = models.TimeRule
     extra = 0
+    ordering = ['priority']
 
 class MembershipTypeAdmin (admin.ModelAdmin):
     inlines = [TimeRuleInline]

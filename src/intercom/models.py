@@ -38,6 +38,20 @@ class TimeRule (models.Model):
     opening_time = models.TimeField(null=True, blank=True)
     closing_time = models.TimeField(null=True, blank=True)
     membership = models.ForeignKey(MembershipType, related_name='rules')
+    priority = models.IntegerField()
+
+    def save(self, *args, **kwargs):
+        if self.priority is None:
+            try:
+                last = self.membership.rules.all().order_by('-priority')[0]
+                self.priority = last.priority + 1
+            except IndexError:
+                self.priority = 0
+
+        return super(TimeRule, self).save(*args, **kwargs)
+
+    class Meta:
+        ordering = ('priority',)
 
     def __unicode__(self):
         days = dict(self.DAY_CHOICES)
