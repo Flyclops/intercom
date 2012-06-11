@@ -22,6 +22,7 @@ class MemberAdmin (admin.ModelAdmin):
     list_display_links = ['name']
     list_editable = []
     list_filter = ['membership']
+    list_select_related = True
     ordering = ['-last_access']
     search_fields = ['name']
 
