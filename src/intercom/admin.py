@@ -9,6 +9,13 @@ class TimeRuleInline (admin.TabularInline):
 class MembershipTypeAdmin (admin.ModelAdmin):
     inlines = [TimeRuleInline]
 
+    class Media:
+        js = (
+            'js/jquery.min.js',
+            'js/jquery-ui.min.js',
+            'js/admin-list-reorder.js',
+        )
+
 class MemberAdmin (admin.ModelAdmin):
     readonly_fields = ['last_access']
     list_display = ['name', 'membership', 'last_access']

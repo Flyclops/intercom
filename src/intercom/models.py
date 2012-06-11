@@ -38,7 +38,7 @@ class TimeRule (models.Model):
     opening_time = models.TimeField(null=True, blank=True)
     closing_time = models.TimeField(null=True, blank=True)
     membership = models.ForeignKey(MembershipType, related_name='rules')
-    priority = models.IntegerField()
+    priority = models.IntegerField(help_text='Drag to reorder')
 
     def save(self, *args, **kwargs):
         if self.priority is None:
