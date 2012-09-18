@@ -6,7 +6,7 @@ from django.db import models
 
 class MembershipType (models.Model):
     name = models.CharField(max_length=32)
-    slug = models.CharField(max_length=32, blank=True, primary_key=True, 
+    slug = models.CharField(max_length=32, blank=True, primary_key=True,
                             help_text=("You can just leave this blank; "
                                        "it'll get filled in with something "
                                        "sensible based on the name of the "
@@ -42,7 +42,7 @@ class TimeRule (models.Model):
     opening_time = models.TimeField(null=True, blank=True)
     closing_time = models.TimeField(null=True, blank=True)
     membership = models.ForeignKey(MembershipType, related_name='rules')
-    priority = models.IntegerField(help_text='Drag to reorder')
+    priority = models.IntegerField(help_text='Drag to reorder', blank=True)
 
     def save(self, *args, **kwargs):
         if self.priority is None:
@@ -136,7 +136,7 @@ class Member (models.Model):
     active = models.BooleanField(default=True)
     """Is the user active.  If they're deactivated, they won't be let in."""
 
-    tone = models.CharField(max_length=1024, null=True, blank=True, 
+    tone = models.CharField(max_length=1024, null=True, blank=True,
                             help_text=("Use this to set a custom noise when "
                                        "the user enters a correct pass code.  "
                                        "Just leave it blank to use the "
