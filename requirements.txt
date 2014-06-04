@@ -1,15 +1,15 @@
 # Server
-django==1.4
-gevent==0.13.7
-gunicorn==0.14.3
+django==1.6.2
+#gevent==0.13.7
+gunicorn==18.0
 
 # Phone
-twilio==3.3.6
+twilio==3.6.5
 
 # Database
-psycopg2==2.4.5
-dj-database-url==0.2.0
-south==0.7.5
+psycopg2==2.5.2
+dj-database-url==0.2.2
+south==0.8.4
 
 # Time
-pytz==2012c
+pytz==2013.9

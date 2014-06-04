@@ -41,8 +41,8 @@ class MemberAdmin (admin.ModelAdmin):
     ordering = ['-last_access']
     search_fields = ['name']
 
-    def queryset(self, request):
-        qs = super(MemberAdmin, self).queryset(request)
+    def get_queryset(self, request):
+        qs = super(MemberAdmin, self).get_queryset(request)
         qs = qs.annotate(num_accesses=Count('access_log'))
         return qs
 
@@ -50,6 +50,11 @@ class MemberAdmin (admin.ModelAdmin):
         return obj.num_accesses
     num_accesses.short_description = 'Access Count'
     num_accesses.admin_order_field = 'num_accesses'
+
+class AttendanceAdmin (admin.ModelAdmin):
+    def get_queryset(self, request):
+        qs = super(AttendanceAdmin, self).get_queryset(request)
+        qs = qs.extra({'access_date' : "date(access_datetime)"}).values()
 
 admin.site.register(models.Member, MemberAdmin)
 admin.site.register(models.MembershipType, MembershipTypeAdmin)

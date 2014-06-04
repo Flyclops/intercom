@@ -176,3 +176,11 @@ class AccessLogEntry (models.Model):
         tz = timezone.get_current_timezone()
         current_dt = self.access_datetime.astimezone(tz)
         return current_dt.strftime("%A, %d. %B %Y %I:%M%p")
+
+
+# class AttendanceRecord (models.Model):
+#     member = models.ForeignKey(Member, related_name='attendance_record')
+#     attendance_date = models.DateField(auto_now_add=True)
+
+#     def __unicode__(self):
+#         return self.attendance_date.strftime("%A, %d. %B %Y")

@@ -54,6 +54,8 @@ ROOT_URLCONF = 'project.urls'
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
+ALLOWED_HOSTS = ['*']
+
 INSTALLED_APPS = (
     'intercom',
     'project',
