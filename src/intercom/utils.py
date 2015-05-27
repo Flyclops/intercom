@@ -10,17 +10,17 @@ class Intercom (object):
         self.host = 'http://' + host + '/'
 
     def greet(self):
-        self.r.play(self.host + "voice/Welcome4.mp3")
+        self.r.say("Welcome to Flyclops.", language="en-gb", voice="female")
 
     def send_to_front_desk(self):
-        # self.r.play(self.host + "voice/FrontDesk1.mp3")
-        self.r.dial("267-702-4865")
+        self.r.dial("267-603-2206", hangupOnStar=True, callerId="267-234-7335")
+        #self.r.dial("856-236-7846", hangupOnStar=True)
 
     def notify_of_valid_code(self, member, digits):
         self.r.play(member.tone or "http://idisk.s3.amazonaws.com/tmp/9.wav")
 
     def notify_of_invalid_code(self, digits):
-        self.r.play(self.host + "voice/Invalid3.mp3")
+        self.r.hangup()
 
     def authenticate(self):
         # Copy the verbs off of the response so far, and put them inside of the
@@ -29,10 +29,11 @@ class Intercom (object):
 
         verbs = self.r.verbs[:]
         self.r.verbs = []
-        params = dict(method='GET', action=self.host + "authenticate_member")
+        params = dict(method='GET', action=self.host + "authenticate_member", numDigits=6, timeout=2)
         with self.r.gather(**params) as auth:
             auth.verbs = verbs[:]
-            auth.play(self.host + "voice/Guest6.mp3")
+            auth.say("One moment please.", language="en-gb", voice="female")
+	self.send_to_front_desk()
 
     def __str__(self):
         return self.r.toxml()

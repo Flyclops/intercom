@@ -33,7 +33,6 @@ def authenticate_member(request):
 
         except models.Member.DoesNotExist:
             intercom.notify_of_invalid_code(digits)
-            intercom.authenticate()
 
     response = HttpResponse(str(intercom), content_type='text/xml')
     return response
