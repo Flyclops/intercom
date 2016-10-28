@@ -20,7 +20,8 @@ class Intercom (object):
         self.r.dial("856-236-7846", hangupOnStar=True, callerId="267-234-7335")
 
     def notify_of_valid_code(self, member, digits):
-        self.r.play(member.tone or "http://idisk.s3.amazonaws.com/tmp/9.wav")
+        #self.r.play(member.tone or "http://idisk.s3.amazonaws.com/tmp/9.wav")
+        self.r.play(digits="9", loop=2)
 
     def notify_of_invalid_code(self, digits):
         self.r.hangup()
