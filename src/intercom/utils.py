@@ -10,7 +10,7 @@ class Intercom (object):
         self.host = 'http://' + host + '/'
 
     def greet(self):
-        params = dict(method='GET', action=self.host + "authenticate", numDigits=1, timeout=4)
+        params = dict(method='GET', action=self.host + "authenticate", numDigits=1)
         with self.r.gather(**params) as hello:
             hello.say("Welcome to Flyclops. One moment please.", language="en-gb", voice="female")
         self.send_to_front_desk()
