@@ -10,7 +10,10 @@ class Intercom (object):
         self.host = 'http://' + host + '/'
 
     def greet(self):
-        self.r.say("Welcome to Flyclops.", language="en-gb", voice="female")
+        params = dict(method='GET', action=self.host + "authenticate", numDigits=1, timeout=5)
+        with self.r.gather(**params) as ok:
+            self.r.say("Welcome to Flyclops. One moment please.", language="en-gb", voice="female")
+        self.send_to_front_desk()
 
     def send_to_front_desk(self):
         self.r.dial("267-603-2206", hangupOnStar=True, callerId="267-234-7335")
@@ -26,14 +29,13 @@ class Intercom (object):
         # Copy the verbs off of the response so far, and put them inside of the
         # gather.  We don't want the user to have to wait until the gather
         # starts to be able to give their input; it should all be in the gather.
-
         verbs = self.r.verbs[:]
         self.r.verbs = []
-        params = dict(method='GET', action=self.host + "authenticate_member", numDigits=6, timeout=2)
+        params = dict(method='GET', action=self.host + "authenticate_member", numDigits=6, timeout=10)
         with self.r.gather(**params) as auth:
             auth.verbs = verbs[:]
             auth.say("One moment please.", language="en-gb", voice="female")
-	self.send_to_front_desk()
+        self.send_to_front_desk()
 
     def __str__(self):
         return self.r.toxml()

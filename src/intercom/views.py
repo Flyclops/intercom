@@ -7,11 +7,14 @@ from . import utils
 def entry_point(request):
     intercom = utils.Intercom(request.get_host())
     intercom.greet()
-    intercom.authenticate()
+    # intercom.authenticate()
 
     response = HttpResponse(str(intercom), content_type='text/xml')
     return response
 
+def authenticate(request):
+    intercom = utils.Intercom(request.get_host())
+    intercom.authenticate()
 
 def authenticate_member(request):
     intercom = utils.Intercom(request.get_host())
