@@ -15,6 +15,9 @@ def entry_point(request):
 def authenticate(request):
     intercom = utils.Intercom(request.get_host())
     intercom.authenticate()
+    
+    response = HttpResponse(str(intercom), content_type='text/xml')
+    return response
 
 def authenticate_member(request):
     intercom = utils.Intercom(request.get_host())
