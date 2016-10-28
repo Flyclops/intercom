@@ -10,7 +10,7 @@ class Intercom (object):
         self.host = 'http://' + host + '/'
 
     def greet(self):
-        params = dict(method='GET', action=self.host + "authenticate", numDigits=1, timeout=2)
+        params = dict(method='GET', action=self.host + "authenticate", numDigits=1, timeout=4)
         with self.r.gather(**params) as hello:
             hello.say("Welcome to Flyclops. One moment please.", language="en-gb", voice="female")
         self.send_to_front_desk()
@@ -23,7 +23,7 @@ class Intercom (object):
         self.r.play("http://com-flyclops-hyperstatic.s3.amazonaws.com/com-flyclops-intercom/91.wav", loop=5)
 
     def notify_of_invalid_code(self, digits):
-        self.r.hangup()
+        self.r.send_to_front_desk()
 
     def authenticate(self):
         # Copy the verbs off of the response so far, and put them inside of the
