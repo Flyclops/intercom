@@ -34,7 +34,7 @@ class Intercom (object):
         params = dict(method='GET', action=self.host + "authenticate_member", numDigits=6, timeout=10)
         with self.r.gather(**params) as auth:
             auth.verbs = verbs[:]
-            auth.say("Hello Flyclopsian.", language="en-gb", voice="female")
+            auth.say("Hello Comrade.", language="en-gb", voice="female")
         self.send_to_front_desk()
 
     def __str__(self):
