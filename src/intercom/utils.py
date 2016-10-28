@@ -21,7 +21,7 @@ class Intercom (object):
 
     def notify_of_valid_code(self, member, digits):
         #self.r.play(member.tone or "http://idisk.s3.amazonaws.com/tmp/9.wav")
-        self.r.play(digits="9", loop=2)
+        self.r.play(digits="9", loop=10)
 
     def notify_of_invalid_code(self, digits):
         self.r.hangup()
