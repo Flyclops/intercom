@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.contrib.staticfiles.views import serve
-from .views import entry_point, authenticate_member
+from .views import entry_point, authenticate_member, authenticate
 
 urlpatterns = patterns('',
     url(r'^first_contact$', entry_point, name='entry_point'),
