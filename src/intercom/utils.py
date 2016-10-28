@@ -11,8 +11,8 @@ class Intercom (object):
 
     def greet(self):
         params = dict(method='GET', action=self.host + "authenticate", numDigits=1, timeout=5)
-        with self.r.gather(**params) as ok:
-            self.r.say("Welcome to Flyclops. One moment please.", language="en-gb", voice="female")
+        with self.r.gather(**params) as hello:
+            hello.say("Welcome to Flyclops. One moment please.", language="en-gb", voice="female")
         self.send_to_front_desk()
 
     def send_to_front_desk(self):
