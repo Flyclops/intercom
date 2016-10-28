@@ -23,7 +23,7 @@ class Intercom (object):
         self.r.play("http://com-flyclops-hyperstatic.s3.amazonaws.com/com-flyclops-intercom/91.wav", loop=5)
 
     def notify_of_invalid_code(self, digits):
-        self.r.send_to_front_desk()
+        self.send_to_front_desk()
 
     def authenticate(self):
         # Copy the verbs off of the response so far, and put them inside of the
