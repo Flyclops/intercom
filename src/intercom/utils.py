@@ -20,7 +20,7 @@ class Intercom (object):
         self.r.dial("856-236-7846", hangupOnStar=True, callerId="267-234-7335")
 
     def notify_of_valid_code(self, member, digits):
-        self.r.play("https://api.twilio.com/cowbell.mp3", loop=5)
+        self.r.play("http://com-flyclops-hyperstatic.s3.amazonaws.com/com-flyclops-intercom/91.wav", loop=5)
 
     def notify_of_invalid_code(self, digits):
         self.r.hangup()
