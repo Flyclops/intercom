@@ -16,8 +16,8 @@ class Intercom (object):
         self.send_to_front_desk()
 
     def send_to_front_desk(self):
-        #self.r.dial("267-603-2206", hangupOnStar=True, callerId="267-234-7335")
-        self.r.dial("856-236-7846", hangupOnStar=True, callerId="267-234-7335")
+        self.r.dial("267-603-2206", hangupOnStar=True, callerId="267-234-7335")
+        #self.r.dial("856-236-7846", hangupOnStar=True, callerId="267-234-7335")
 
     def notify_of_valid_code(self, member, digits):
         self.r.play("http://com-flyclops-hyperstatic.s3.amazonaws.com/com-flyclops-intercom/91.wav", loop=5)
